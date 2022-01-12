@@ -2,11 +2,13 @@
 $input = [4, 3, 2, -2, -3, 5, 7, -6];
 sort($input);
 
-foreach($input as $value) {
-    if ($value > 0) {break;}
+foreach($input as $k => $v) {
+    if ($v > 0) {break;}
 
-    if (array_search($value * -1, $input)) {
-        $input = array_diff($input, [$value, $value * -1]);
+    $minusK = array_search($v * -1, $input);
+    if ($minusK) {
+        unset($input[$k]);
+        unset($input[$minusK]);
     }
 }
 
