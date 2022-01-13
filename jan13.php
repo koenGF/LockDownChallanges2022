@@ -9,18 +9,18 @@ if (!isset($_SESSION['answer'])) {
     $_SESSION['answer'] = [rand(1, 9), rand(1, 9), rand(1, 9), rand(1, 9)];
 }
 
-echo implode($_SESSION['answer']) . "<br>";
+//echo implode($_SESSION['answer']) . "<br>" - DEBUG;
 
 //when guess is submitted
 if (isset($_POST['guess'])) {
+    echo "correct/wrong position <br>";
     $guess = str_split($_POST['guess']);
     $_SESSION['guesses'][] = implode($guess) . " - " . check($_SESSION['answer'], $guess);
     displayArray($_SESSION['guesses']);
 }
 
 //compare user guess with answer
-function check($answer, $guess): string
-{
+function check($answer, $guess): string {
     $correct = $wrongPos = 0;
 
     //check same position
@@ -30,6 +30,11 @@ function check($answer, $guess): string
             $answer[$i] = NULL;
             $guess[$i] = NULL;
         }
+    }
+
+    //if answer has been found
+    if ($correct == 4) {
+        return "correct! it took you " . (count($_SESSION['guesses']) + 1) . " tries.";
     }
 
     //check elsewhere
