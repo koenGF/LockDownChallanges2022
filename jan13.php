@@ -6,10 +6,19 @@ if (isset($_POST['reset'])) {
 
 //generate answer
 if (!isset($_SESSION['answer'])) {
-    $_SESSION['answer'] = [rand(1, 9), rand(1, 9), rand(1, 9), rand(1, 9)];
+    echo "toggle checkbox and press reset to play without recurring numbers. <br>";
+
+    $_SESSION['answer'] = [];
+    while (count($_SESSION['answer'])  < 4 ) {
+        $random = rand(1,9);
+        if (isset($_POST['no_recurring']) && in_array($random, $_SESSION['answer'])) {
+            continue;
+        }
+        $_SESSION['answer'][] = $random;
+    }
 }
 
-//echo implode($_SESSION['answer']) . "<br>" - DEBUG;
+//echo implode($_SESSION['answer']) . "<br>";
 
 //when guess is submitted
 if (isset($_POST['guess'])) {
@@ -72,6 +81,9 @@ function displayArray($arr) {
     </label>
 </form>
 <form action="jan13.php" method="post">
+    <label>
+        <input type="checkbox" name="no_recurring">
+    </label>
     <input name="reset" value="reset" type="submit">
 </form>
 </html>
